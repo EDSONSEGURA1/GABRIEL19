@@ -7,6 +7,7 @@ import 'package:myapp/screens/home_screen.dart';
 import 'package:myapp/screens/player_form_screen.dart';
 import 'package:myapp/screens/player_list_screen.dart';
 import 'package:myapp/screens/historial_fichajes_screen.dart';
+import 'package:myapp/screens/fichaje_form_screen.dart'; // Importar
 import 'package:myapp/models/club_model.dart';
 import 'package:myapp/models/jugador_model.dart';
 
@@ -46,6 +47,10 @@ class AppRouter {
       GoRoute(
         path: '/transfers',
         builder: (context, state) => const HistorialFichajesScreen(),
+      ),
+      GoRoute(
+        path: '/fichaje-form', // Nueva ruta
+        builder: (context, state) => const FichajeFormScreen(),
       ),
     ],
     redirect: (context, state) {

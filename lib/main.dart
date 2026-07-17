@@ -25,13 +25,14 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => ClubProvider()),
+        // CORREGIDO: FichajeProvider no depende de AuthProvider, se usa un provider normal.
+        ChangeNotifierProvider(create: (context) => FichajeProvider()),
+
+        // CORREGIDO: JugadorProvider SÍ depende de AuthProvider, por lo que el Proxy es correcto aquí.
         ChangeNotifierProxyProvider<AuthProvider, JugadorProvider>(
+          // Se crea una instancia inicial que es reemplazada inmediatamente por el update.
           create: (context) => JugadorProvider(Provider.of<AuthProvider>(context, listen: false)),
           update: (context, auth, previous) => JugadorProvider(auth),
-        ),
-        ChangeNotifierProxyProvider<AuthProvider, FichajeProvider>(
-          create: (context) => FichajeProvider(Provider.of<AuthProvider>(context, listen: false)),
-          update: (context, auth, previous) => FichajeProvider(auth),
         ),
       ],
       child: Consumer<AuthProvider>(

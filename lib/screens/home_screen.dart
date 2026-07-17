@@ -46,6 +46,12 @@ class HomeScreen extends StatelessWidget {
             title: 'Historial de Fichajes',
             route: '/transfers',
           ),
+          _buildMenuCard(
+            context,
+            icon: Icons.add_box_rounded,
+            title: 'Nuevo Fichaje',
+            route: '/fichaje-form',
+          ),
         ],
       ),
     );

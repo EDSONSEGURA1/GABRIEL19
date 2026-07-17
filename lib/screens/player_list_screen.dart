@@ -14,6 +14,13 @@ class PlayerListScreen extends StatelessWidget {
     final fichajeProvider = Provider.of<FichajeProvider>(context, listen: false);
     final clubesDisponibles = clubes.where((club) => club.id != jugador.clubId).toList();
 
+    // CORREGIDO: Creación del Club de Origen con todos los campos requeridos.
+    final clubOrigen = clubes.firstWhere(
+      (club) => club.id == jugador.clubId,
+      // El fallback ahora construye un objeto Club válido.
+      orElse: () => Club(id: 'unknown', nombre: 'Desconocido', estadio: 'N/A', fundacion: 0),
+    );
+
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -30,12 +37,12 @@ class PlayerListScreen extends StatelessWidget {
                       final clubDestino = clubesDisponibles[index];
                       return ListTile(
                         title: Text(clubDestino.nombre),
-                        onTap: () async {
+                        onTap: () {
                           Navigator.of(dialogContext).pop();
-                          await fichajeProvider.ficharJugador(
+                          fichajeProvider.agregarFichaje(
                             jugador,
-                            clubDestino.id,
-                            clubDestino.nombre,
+                            clubOrigen,
+                            clubDestino,
                           );
                           if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
