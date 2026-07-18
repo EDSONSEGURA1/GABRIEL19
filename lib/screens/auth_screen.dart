@@ -28,20 +28,18 @@ class AuthScreen extends ConsumerWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Usar el authRepositoryProvider para acceder a los métodos de autenticación
-                ref.read(authRepositoryProvider).signIn(
-                      email: emailController.text,
-                      password: passwordController.text,
+                ref.read(authRepositoryProvider).signInWithEmailAndPassword(
+                      emailController.text,
+                      passwordController.text,
                     );
               },
               child: const Text('Iniciar Sesión'),
             ),
             TextButton(
               onPressed: () {
-                // Usar el authRepositoryProvider para acceder a los métodos de autenticación
-                ref.read(authRepositoryProvider).signUp(
-                      email: emailController.text,
-                      password: passwordController.text,
+                ref.read(authRepositoryProvider).createUserWithEmailAndPassword(
+                      emailController.text,
+                      passwordController.text,
                     );
               },
               child: const Text('Registrarse'),

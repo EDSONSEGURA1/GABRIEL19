@@ -7,19 +7,15 @@ class PerfilScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Se observa el estado de autenticación que es un AsyncValue<User?>
-    final authState = ref.watch(authStateProvider);
+    final authState = ref.watch(authStateChangesProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perfil de Usuario'),
       ),
-      // Usamos .when para manejar los estados de carga, error y datos
       body: authState.when(
         data: (user) {
           if (user == null) {
-            // Esto no debería pasar si la navegación está bien configurada,
-            // pero es bueno manejarlo.
             return const Center(child: Text('No hay sesión iniciada.'));
           }
           return Center(
