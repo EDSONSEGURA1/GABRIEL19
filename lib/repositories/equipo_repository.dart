@@ -2,11 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventarios_unap/models/equipo.dart';
 
 class EquipoRepository {
-  final FirebaseFirestore _firestore;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  EquipoRepository(this._firestore);
-
-  Stream<List<Equipo>> getEquipos(String userId) {
+  // Obtener un stream de equipos para un usuario específico
+  Stream<List<Equipo>> getEquiposStream(String userId) {
     return _firestore
         .collection('equipos')
         .where('userId', isEqualTo: userId)
@@ -16,15 +15,18 @@ class EquipoRepository {
     });
   }
 
-  Future<void> addEquipo(Equipo equipo) {
-    return _firestore.collection('equipos').add(equipo.toFirestore());
+  // Añadir un nuevo equipo
+  Future<void> addEquipo(Equipo equipo) async {
+    await _firestore.collection('equipos').add(equipo.toFirestore());
   }
 
-  Future<void> updateEquipo(Equipo equipo) {
-    return _firestore.collection('equipos').doc(equipo.id).update(equipo.toFirestore());
+  // Actualizar un equipo existente
+  Future<void> updateEquipo(Equipo equipo) async {
+    await _firestore.collection('equipos').doc(equipo.id).update(equipo.toFirestore());
   }
 
-  Future<void> deleteEquipo(String equipoId) {
-    return _firestore.collection('equipos').doc(equipoId).delete();
+  // Eliminar un equipo
+  Future<void> deleteEquipo(String equipoId) async {
+    await _firestore.collection('equipos').doc(equipoId).delete();
   }
 }

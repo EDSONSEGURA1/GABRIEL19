@@ -6,26 +6,35 @@ class EquipoCard extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onDelete;
 
-  const EquipoCard({super.key, required this.equipo, required this.onTap, required this.onDelete});
+  const EquipoCard({
+    super.key,
+    required this.equipo,
+    required this.onTap,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ListTile(
-        contentPadding: const EdgeInsets.all(16.0),
-        title: Text(equipo.nombre, style: const TextStyle(fontWeight: FontWeight.bold)),
+        contentPadding: const EdgeInsets.all(16),
+        title: Text(equipo.nombre, style: theme.textTheme.titleLarge),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Serial: ${equipo.serial ?? 'N/A'}'),
-            Text('Modelo: ${equipo.modelo ?? 'N/A'}'),
+            if (equipo.descripcion != null && equipo.descripcion!.isNotEmpty)
+              Text(equipo.descripcion!),
+            if (equipo.categoria != null && equipo.categoria!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Chip(label: Text(equipo.categoria!)),
+              ),
           ],
         ),
         trailing: IconButton(
-          icon: const Icon(Icons.delete, color: Colors.red),
+          icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
           onPressed: onDelete,
         ),
         onTap: onTap,

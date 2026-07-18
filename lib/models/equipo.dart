@@ -1,20 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Este modelo ahora representa un Equipo Deportivo
 class Equipo {
   final String? id;
-  final String userId;
-  final String nombre;
-  final String? descripcion;
-  final String? serial;
-  final String? modelo;
+  final String userId; // El usuario que crea el equipo
+  final String nombre; // Nombre del equipo deportivo
+  final String? descripcion; // Descripción o notas sobre el equipo
+  final String? categoria; // Categoría para filtrar (ej: Liga A, Amistoso)
 
   Equipo({
     this.id,
     required this.userId,
     required this.nombre,
     this.descripcion,
-    this.serial,
-    this.modelo,
+    this.categoria,
   });
 
   factory Equipo.fromFirestore(DocumentSnapshot doc) {
@@ -24,8 +23,7 @@ class Equipo {
       userId: data['userId'],
       nombre: data['nombre'],
       descripcion: data['descripcion'],
-      serial: data['serial'],
-      modelo: data['modelo'],
+      categoria: data['categoria'],
     );
   }
 
@@ -34,26 +32,23 @@ class Equipo {
       'userId': userId,
       'nombre': nombre,
       'descripcion': descripcion,
-      'serial': serial,
-      'modelo': modelo,
+      'categoria': categoria,
     };
   }
-  
+
   Equipo copyWith({
     String? id,
     String? userId,
     String? nombre,
     String? descripcion,
-    String? serial,
-    String? modelo,
+    String? categoria,
   }) {
     return Equipo(
       id: id ?? this.id,
       userId: userId ?? this.userId,
       nombre: nombre ?? this.nombre,
       descripcion: descripcion ?? this.descripcion,
-      serial: serial ?? this.serial,
-      modelo: modelo ?? this.modelo,
+      categoria: categoria ?? this.categoria,
     );
   }
 }

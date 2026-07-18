@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:inventarios_unap/models/equipo.dart';
 import 'package:inventarios_unap/providers/auth_provider.dart';
 import 'package:inventarios_unap/providers/equipo_provider.dart';
+import 'package:inventarios_unap/widgets/custom_elevated_button.dart'; // Importamos el nuevo widget
 
 class EquipoFormScreen extends ConsumerStatefulWidget {
   final Equipo? equipo;
@@ -18,21 +19,18 @@ class _EquipoFormScreenState extends ConsumerState<EquipoFormScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nombreController;
   late TextEditingController _descripcionController;
-  late TextEditingController _serialController;
-  late TextEditingController _modeloController;
+  late TextEditingController _categoriaController;
 
   @override
   void initState() {
     super.initState();
     _nombreController = TextEditingController(text: widget.equipo?.nombre ?? '');
     _descripcionController = TextEditingController(text: widget.equipo?.descripcion ?? '');
-    _serialController = TextEditingController(text: widget.equipo?.serial ?? '');
-    _modeloController = TextEditingController(text: widget.equipo?.modelo ?? '');
+    _categoriaController = TextEditingController(text: widget.equipo?.categoria ?? '');
   }
 
   @override
   Widget build(BuildContext context) {
-    // Se observa el estado de autenticación para obtener el userId
     final authState = ref.watch(authStateProvider);
     final userId = authState.when(
       data: (user) => user?.uid,
@@ -42,7 +40,7 @@ class _EquipoFormScreenState extends ConsumerState<EquipoFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.equipo == null ? 'Nuevo Equipo' : 'Editar Equipo'),
+        title: Text(widget.equipo == null ? 'Añadir Equipo' : 'Editar Equipo'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -52,33 +50,33 @@ class _EquipoFormScreenState extends ConsumerState<EquipoFormScreen> {
             children: [
               TextFormField(
                 controller: _nombreController,
-                decoration: const InputDecoration(labelText: 'Nombre'),
-                validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
+                decoration: const InputDecoration(labelText: 'Nombre del Equipo'),
+                validator: (value) => value!.isEmpty ? 'El nombre es requerido' : null,
               ),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _descripcionController,
-                decoration: const InputDecoration(labelText: 'Descripción'),
+                decoration: const InputDecoration(labelText: 'Descripción (opcional)'),
+                maxLines: 3,
               ),
+              const SizedBox(height: 16),
               TextFormField(
-                controller: _serialController,
-                decoration: const InputDecoration(labelText: 'Serial'),
+                controller: _categoriaController,
+                decoration: const InputDecoration(labelText: 'Categoría (ej: Liga A, Amistoso)'),
               ),
-              TextFormField(
-                controller: _modeloController,
-                decoration: const InputDecoration(labelText: 'Modelo'),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
+              const SizedBox(height: 30),
+              // Reemplazamos ElevatedButton por nuestro CustomElevatedButton
+              CustomElevatedButton(
+                text: 'Guardar Equipo',
+                icon: Icons.save,
                 onPressed: () {
                   if (_formKey.currentState!.validate() && userId != null) {
                     final nuevoEquipo = Equipo(
                       id: widget.equipo?.id,
-                      // El userId ya no se pasa aquí porque se añade en el notifier
                       userId: userId,
                       nombre: _nombreController.text,
                       descripcion: _descripcionController.text,
-                      serial: _serialController.text,
-                      modelo: _modeloController.text,
+                      categoria: _categoriaController.text,
                     );
 
                     if (widget.equipo == null) {
@@ -86,10 +84,9 @@ class _EquipoFormScreenState extends ConsumerState<EquipoFormScreen> {
                     } else {
                       ref.read(equiposProvider.notifier).updateEquipo(nuevoEquipo);
                     }
-                    context.pop(); // Regresa a la pantalla anterior
+                    context.pop();
                   }
                 },
-                child: const Text('Guardar'),
               ),
             ],
           ),
