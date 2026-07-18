@@ -1,32 +1,39 @@
-name: myapp
+name: inventarios_unap
 description: "A new Flutter project."
 publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0' # Rango más flexible para el SDK
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
-  # --- VERSIONES ACTUALIZADAS ---
-  # He actualizado todos los paquetes a sus últimas versiones estables.
-  # Esto resolverá los conflictos de una vez por todas.
-  firebase_core: ^4.12.1
-  cloud_firestore: ^6.7.1
+  # Firebase
+  firebase_core: ^2.32.0
+  firebase_auth: ^4.20.0
+  cloud_firestore: ^4.17.5
+  firebase_messaging: ^14.9.2
+  google_sign_in: ^6.2.1
+
+  # UI & State
   go_router: ^17.2.3
-  provider: ^6.1.5+1
-  cupertino_icons: ^1.0.9
-  google_fonts: ^8.1.0
-  intl: ^0.20.3
+  google_fonts: ^6.2.1
+  cupertino_icons: ^1.0.8
+  intl: 0.20.2
   uuid: ^4.4.0
-  firebase_auth: ^6.5.6
+  flutter_local_notifications: ^20.1.0
+  connectivity_plus: ^7.3.0
+  flutter_riverpod: ^2.5.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0 # También actualizado
+  flutter_lints: ^3.0.0
 
 flutter:
   uses-material-design: true
+  generate: false

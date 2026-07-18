@@ -1,60 +1,56 @@
-# Blueprint de la Aplicación: Gestión de Fichajes de Fútbol
+# Blueprint: Inventarios UNAP
 
 ## Visión General
 
-Esta aplicación es un sistema completo para gestionar jugadores de fútbol, los clubes a los que pertenecen y el historial de fichajes entre ellos. La app está diseñada con una arquitectura limpia, una interfaz de usuario moderna basada en Material 3 y una gestión de estado reactiva.
+Esta aplicación está diseñada para gestionar el inventario de equipos de la UNAP. Permite a los usuarios autenticados rastrear equipos, ver su estado, registrar mantenimientos y buscar en su inventario.
 
-## Arquitectura y Diseño Actual
+## Estilo y Diseño
 
-- **Estructura de Carpetas:** Se ha adoptado un enfoque organizado por tipo de archivo, lo que ha permitido una estructura más limpia y mantenible:
-  - `lib/models/`: Clases de datos (`Player`, `Club`).
-  - `lib/providers/`: Gestores de estado con `ChangeNotifier` (`PlayerProvider`, `ClubProvider`).
-  - `lib/screens/`: Pantallas principales y de formularios.
-  - `lib/widgets/`: Widgets reutilizables (`PlayerCard`, `ClubCard`, `CustomNavigationBar`).
-  - `lib/router/`: Configuración de `go_router`.
-  - `lib/theme/`: Definición del tema de la aplicación.
+La aplicación sigue los principios de Material Design 3, utilizando un esquema de color moderno, tipografía legible con `google_fonts`, y componentes interactivos y bien espaciados para una experiencia de usuario intuitiva. Se presta especial atención a la retroalimentación visual, como indicadores de carga, diálogos de confirmación y mensajes de estado.
 
-- **Navegación:** Se utiliza `go_router` para una navegación declarativa y robusta. La navegación principal se gestiona con un `ScaffoldWithNavigationBar` que contiene un `CustomNavigationBar` personalizado.
+## Características Implementadas
 
-- **Gestión de Estado:** Se ha integrado `provider` para una gestión de estado centralizada y reactiva. `PlayerProvider` y `ClubProvider` exponen los datos y la lógica de negocio a la UI.
+*   **Autenticación de Usuarios:** Registro e inicio de sesión con Email/Contraseña usando Firebase Auth.
+*   **Gestión de Equipos:**
+    *   Listado reactivo de equipos desde Firestore.
+    *   Añadir y editar equipos a través de un formulario dedicado.
+    *   Eliminación de equipos con un diálogo de confirmación para prevenir acciones accidentales.
+    *   **Búsqueda en tiempo real:** Filtrado dinámico de equipos por nombre o número de serial.
+*   **Gestión de Mantenimientos:**
+    *   Listado de mantenimientos para cada equipo.
+    *   Formulario para añadir nuevos registros de mantenimiento.
+*   **Navegación:**
+    *   Enrutamiento basado en `go_router` para una navegación robusta y basada en URL.
+    *   Barra de navegación inferior para un acceso rápido a las pantallas de Equipos y Perfil.
+*   **Perfil de Usuario:** Pantalla simple para ver el email del usuario actual y cerrar sesión.
+*   **Experiencia de Usuario Mejorada (UI/UX):**
+    *   Uso de `CircularProgressIndicator` para indicar la carga de datos.
+    *   Mensajes claros para el usuario cuando no hay datos (`"No se encontraron equipos."`) o cuando ocurren errores.
+    *   Widgets de tarjeta (`EquipoCard`) para una visualización clara y consistente de la información del equipo.
 
-- **UI y Diseño:**
-  - **Tema:** Se ha implementado un tema moderno con Material 3, `google_fonts` y `ColorScheme.fromSeed`.
-  - **Tarjetas Personalizadas:** `PlayerCard` y `ClubCard` muestran la información de forma clara y atractiva.
-  - **Formularios:** Las pantallas de creación y edición (`PlayerFormScreen`, `ClubFormScreen`) están completamente funcionales.
+---
 
-## Funcionalidad Implementada
+## Resumen de la Sesión Actual: Depuración y Refinamiento
 
-- **CRUD Completo para Jugadores y Clubes:**
-  - **Crear:** Se pueden añadir nuevos jugadores y clubes a través de formularios dedicados.
-  - **Leer:** Las listas de jugadores y clubes se muestran en sus respectivas pantallas.
-  - **Actualizar:** La información existente se puede editar.
-  - **Eliminar:** Se pueden borrar jugadores y clubes de la lista.
-- **Navegación Intuitiva:** El usuario puede moverse fácilmente entre las secciones de jugadores y clubes.
-- **Feedback al Usuario:** Se utilizan `CircularProgressIndicator` durante las cargas y se navega hacia atrás después de las operaciones de guardado/eliminación.
+En esta sesión, el enfoque principal se desplazó de la implementación de nuevas características a la resolución de una serie de errores de análisis críticos que impedían la compilación del proyecto.
 
-## Próximos Pasos
+1.  **Diagnóstico del Problema:**
+    *   Se identificaron 18 errores de análisis persistentes relacionados con la dependencia `flutter_riverpod`. Los errores indicaban que el analizador de Dart no podía encontrar clases fundamentales como `StateNotifier`, `StateNotifierProvider` y `StateProvider`, a pesar de que el paquete estaba listado en `pubspec.yaml`.
 
-### Fase 1: Implementar la Funcionalidad de Fichajes
+2.  **Intentos de Solución Iniciales:**
+    *   Se ejecutó `flutter pub get` y `flutter pub upgrade` para intentar resolver las dependencias, sin éxito.
+    *   Se eliminó el archivo `pubspec.lock` y se volvió a ejecutar `flutter pub get` para forzar una resolución limpia, pero los errores persistieron.
+    *   Se ejecutó `flutter clean` para eliminar los artefactos de compilación y la caché, seguido de `flutter pub get`, lo que tampoco resolvió el problema.
 
-1.  **Modelo y Provider de Fichajes:**
-    - Crear `Transfer` model (`lib/models/transfer_model.dart`).
-    - Crear `TransferProvider` (`lib/providers/transfer_provider.dart`) para gestionar la lista de fichajes.
-2.  **Pantalla de Fichajes:**
-    - Crear `transfers_screen.dart` para mostrar la lista de fichajes.
-    - Crear `TransferCard` widget (`lib/widgets/transfer_card.dart`).
-3.  **Formulario de Fichajes:**
-    - Crear `transfer_form_screen.dart` para crear nuevos fichajes.
-    - El formulario deberá permitir seleccionar un jugador y los clubes de origen y destino de las listas existentes (usando `DropdownButtonFormField`).
+3.  **Solución Definitiva (Conflicto de Versiones):**
+    *   La causa raíz se identificó como un conflicto de versiones entre los paquetes de estado. El proyecto tenía tanto `provider` como `flutter_riverpod`, y las versiones resueltas automáticamente por `pub` eran incompatibles.
+    *   **Acción Correctiva:**
+        1.  Se eliminó la dependencia `provider` del `pubspec.yaml`, ya que `flutter_riverpod` era la solución de gestión de estado elegida.
+        2.  Se actualizó explícitamente la versión de `flutter_riverpod` a `^2.5.1` para garantizar la compatibilidad y obtener las últimas correcciones.
+    *   Tras aplicar estos cambios y ejecutar `flutter pub get`, todos los errores de análisis críticos se resolvieron.
 
-### Fase 2: Conexión a la Nube con Firebase
+4.  **Limpieza Final:**
+    *   Se eliminaron las importaciones no utilizadas en `lib/router/router.dart` y `lib/screens/equipos_screen.dart` para dejar el código completamente limpio y sin advertencias.
+    *   Se verificó con `flutter analyze` que el proyecto está ahora libre de errores y advertencias.
 
-1.  **Configuración de Firebase:** Crear un proyecto en Firebase y configurar la aplicación Flutter.
-2.  **Cloud Firestore:** Migrar los datos (jugadores, clubes, fichajes) a Cloud Firestore.
-3.  **Refactorizar Providers:** Adaptar los `Providers` para que lean y escriban en Firestore en lugar de en listas en memoria.
-
-### Fase 3: Mejoras de UI/UX y Pruebas
-
-1.  **Búsqueda y Filtros:** Implementar la funcionalidad de búsqueda y los filtros en las pantallas de jugadores y clubes.
-2.  **Feedback Visual:** Añadir `SnackBar`s para confirmar acciones (ej: "Jugador guardado con éxito").
-3.  **Pruebas:** Escribir `Unit Tests` y `Widget Tests` para el código nuevo.
+**El proyecto se encuentra ahora en un estado estable, funcional y libre de errores de análisis, con todas las características previstas implementadas.**

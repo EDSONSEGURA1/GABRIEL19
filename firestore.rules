@@ -1,0 +1,16 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Los usuarios solo pueden leer, escribir, actualizar y eliminar sus propios equipos.
+    match /equipos/{equipoId} {
+      allow read, write, update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+
+      // Los usuarios solo pueden interactuar con los mantenimientos de sus propios equipos.
+      match /mantenimientos/{mantenimientoId} {
+        allow read, write, delete: if request.auth != null && get(/databases/$(database)/documents/equipos/$(equipoId)).data.userId == request.auth.uid;
+      }
+    }
+  }
+}
