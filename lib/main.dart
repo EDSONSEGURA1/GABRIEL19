@@ -79,3 +79,5 @@ class MyApp extends ConsumerWidget { // Cambiado a ConsumerWidget
     );
   }
 }
+
+// Final timestamp update.
