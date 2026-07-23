@@ -1,17 +1,5 @@
-
 // FILE: lib/firebase_options.dart
-// IMPORTANTE: ESTE ES UN ARCHIVO DE EJEMPLO.
-// Para que la aplicación se conecte a tu proyecto de Firebase,
-// debes reemplazar el contenido de este archivo por el tuyo.
-//
-// Sigue estos pasos en tu terminal:
-// 1. Si no lo has hecho, instala el CLI de Firebase: npm install -g firebase-tools
-// 2. Ejecuta: firebase login
-// 3. Ejecuta: flutterfire configure
-// 4. Sigue los pasos en pantalla. Esto generará un NUEVO `firebase_options.dart`
-//    con tus propias claves. Sobrescribe este archivo con el nuevo.
-
-import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
+import 'package0:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
@@ -45,38 +33,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'REEMPLAZAR-CON-TU-API-KEY',
-    appId: 'REEMPLAZAR-CON-TU-APP-ID',
-    messagingSenderId: '000000000000',
-    projectId: 'tu-project-id',
-    authDomain: 'tu-project-id.firebaseapp.com',
-    storageBucket: 'tu-project-id.appspot.com',
-    measurementId: 'G-XXXXXXXXXX',
+    apiKey: 'AIzaSyCvHkrROTRHi5dw6CXKEXCHiDxdWT4Y7Zg',
+    appId: '1:217557943888:web:176340e4e6f878c2487355',
+    messagingSenderId: '217557943888',
+    projectId: 'football-manager-fcm-app',
+    authDomain: 'football-manager-fcm-app.firebaseapp.com',
+    storageBucket: 'football-manager-fcm-app.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'REEMPLAZAR-CON-TU-API-KEY',
-    appId: 'REEMPLAZAR-CON-TU-APP-ID',
-    messagingSenderId: '000000000000',
-    projectId: 'tu-project-id',
-    storageBucket: 'tu-project-id.appspot.com',
+    apiKey: 'AIzaSyCvHkrROTRHi5dw6CXKEXCHiDxdWT4Y7Zg',
+    appId: '1:217557943888:web:176340e4e6f878c2487355',
+    messagingSenderId: '217557943888',
+    projectId: 'football-manager-fcm-app',
+    storageBucket: 'football-manager-fcm-app.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'REEMPLAZAR-CON-TU-API-KEY',
-    appId: 'REEMPLAZAR-CON-TU-APP-ID',
-    messagingSenderId: '000000000000',
-    projectId: 'tu-project-id',
-    storageBucket: 'tu-project-id.appspot.com',
+    apiKey: 'AIzaSyCvHkrROTRHi5dw6CXKEXCHiDxdWT4Y7Zg',
+    appId: '1:217557943888:web:176340e4e6f878c2487355',
+    messagingSenderId: '217557943888',
+    projectId: 'football-manager-fcm-app',
+    storageBucket: 'football-manager-fcm-app.firebasestorage.app',
     iosBundleId: 'com.example.myapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'REEMPLAZAR-CON-TU-API-KEY',
-    appId: 'REEMPLAZAR-CON-TU-APP-ID',
-    messagingSenderId: '000000000000',
-    projectId: 'tu-project-id',
-    storageBucket: 'tu-project-id.appspot.com',
+    apiKey: 'AIzaSyCvHkrROTRHi5dw6CXKEXCHiDxdWT4Y7Zg',
+    appId: '1:217557943888:web:176340e4e6f878c2487355',
+    messagingSenderId: '217557943888',
+    projectId: 'football-manager-fcm-app',
+    storageBucket: 'football-manager-fcm-app.firebasestorage.app',
     iosBundleId: 'com.example.myapp',
   );
 }
